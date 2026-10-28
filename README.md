@@ -1,27 +1,13 @@
 # bongo_clicker
 邦鼓猫点击器
 
-一个基于 PySide6 的自动点击器工具，可以在指定位置点击，用来解锁 [Bongo Cat](https://store.steampowered.com/app/3419430/Bongo_Cat/) 成就，也可以用来点 [POPCAT](https://popcat.click/) 。适用于Windows系统
+一个基于 PySide6 的自动点击工具，可以在指定位置点击，用来解锁 [Bongo Cat](https://store.steampowered.com/app/3419430/Bongo_Cat/) 成就，也可以用来点 [POPCAT](https://popcat.click/) 。适用于Windows系统
 
 ## 依赖
 - PySide6
 - pywin32
 
-
 ## 使用方法
-
-安装依赖：
-
-```bash
-pip install -r requirements.txt
-```
-
-运行程序：
-
-```bash
-python clicker.py
-```
-
 
 1. 设置点击次数和间隔时间
 2. 点击“选择位置”按钮并在屏幕选择点击位置
