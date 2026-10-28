@@ -1,18 +1,12 @@
 from typing import Optional
-from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QApplication, QHBoxLayout, QSpinBox, QDoubleSpinBox, QMessageBox
+from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QApplication, QHBoxLayout, QSpinBox, QDoubleSpinBox
 from PySide6.QtCore import Qt, QTimer
 import win32api
 import win32con
 import sys
 
 class Clicker(QWidget):
-    def __init__(self) -> None:
-        """
-        初始化Click类实例
-        
-        Returns:
-            None: 无返回值
-        """
+    def __init__(self):
         super().__init__()
         self.count: int = 50  # 默认点击次数
         self.click_interval: float = 0.1  # 默认点击间隔时间(秒)
@@ -23,12 +17,9 @@ class Clicker(QWidget):
         self.selection_timer: Optional[QTimer] = None  # 选择点击位置定时器
         self.init_ui()
 
-    def init_ui(self) -> None:
+    def init_ui(self):
         """
         初始化用户界面
-        
-        Returns:
-            None: 无返回值
         """
         self.setWindowTitle("点击器")
         self.setFixedSize(300,150)
@@ -110,37 +101,28 @@ class Clicker(QWidget):
         self.selection_timer = QTimer(self)
         self.selection_timer.timeout.connect(self.check_mouse_click)
 
-    def update_counter(self, value: int) -> None:
+    def update_counter(self, value: int):
         """
         更新计数器显示的剩余点击次数
         
         Args:
             value (int): 要设置的新计数值
-            
-        Returns:
-            None: 无返回值
         """
         self.count = value
         self.number_label.setText(f"剩余点击次数：{str(self.count)}")
             
-    def update_interval(self, value: float) -> None:
+    def update_interval(self, value: float):
         """
         更新点击间隔时间
         
         Args:
             value (float): 新的点击间隔时间（秒）
-            
-        Returns:
-            None: 无返回值
         """
         self.click_interval = value
         
-    def start_position_selection(self) -> None:
+    def start_position_selection(self):
         """
         开始选择点击位置
-        
-        Returns:
-            None: 无返回值
         """
         self.is_selecting_position = True
         self.select_position_btn.setText("点击任意位置")
@@ -149,12 +131,9 @@ class Clicker(QWidget):
         if self.selection_timer is None or not self.selection_timer.isActive():
             self.selection_timer.start(50)
 
-    def check_mouse_click(self) -> None:
+    def check_mouse_click(self):
         """
         检查鼠标点击状态并获取点击位置坐标
-        
-        Returns:
-            None: 无返回值
         """
         # 检查鼠标左键是否被点击
         if win32api.GetAsyncKeyState(win32con.VK_LBUTTON) & 0x8000:
@@ -171,12 +150,9 @@ class Clicker(QWidget):
             self.select_position_btn.setText("选择位置")
             self.select_position_btn.setStyleSheet("")
             
-    def start_clicking(self) -> None:
+    def start_clicking(self):
         """
         开始或停止自动点击过程
-        
-        Returns:
-            None: 无返回值
         """
         if self.click_timer.isActive():
             # 如果已经在点击，则停止
@@ -201,12 +177,9 @@ class Clicker(QWidget):
             # 开始时启动右键检测
             self.stop_timer.start(50)
 
-    def auto_click(self) -> None:
+    def auto_click(self):
         """
         执行自动点击操作
-        
-        Returns:
-            None: 无返回值
         """
         # 防止重入：如果已有点击进行中，跳过本次触发
         if self.count <= 0:
@@ -222,12 +195,9 @@ class Clicker(QWidget):
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, self.click_x, self.click_y, 0, 0)
         QTimer.singleShot(50, self._release_and_update)
 
-    def _release_and_update(self) -> None:
+    def _release_and_update(self):
         """
         释放鼠标按键并更新点击计数
-        
-        Returns:
-            None: 无返回值
         """
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, self.click_x, self.click_y, 0, 0)
         self.count -= 1
@@ -236,12 +206,9 @@ class Clicker(QWidget):
         if self.count <= 0:
             self._finish_clicking()
 
-    def _finish_clicking(self) -> None:
+    def _finish_clicking(self):
         """
         完成点击任务并恢复UI状态
-        
-        Returns:
-            None: 无返回值
         """
         if self.click_timer.isActive():
             self.click_timer.stop()
@@ -252,23 +219,17 @@ class Clicker(QWidget):
         self.interval_input.setEnabled(True)
         self.select_position_btn.setEnabled(True)
 
-    def check_stop_right_click(self) -> None:
+    def check_stop_right_click(self):
         """
         检测右键按下以停止自动点击
-
-        Returns:
-            None
         """
         # 如果检测到右键按下，停止自动点击
         if win32api.GetAsyncKeyState(win32con.VK_RBUTTON) & 0x8000:
             self._finish_clicking()
 
-    def get_position(self) -> None:
+    def get_position(self):
         """
         获取并更新当前鼠标位置信息
-        
-        Returns:
-            None: 无返回值
         """
         x, y = win32api.GetCursorPos()
 
